@@ -3,13 +3,6 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import numpy as np
 
-def YearWiseData():
-    for i in range(1920,2023):
-        response = requests.get("http://www.planecrashinfo.com/1920/1920.htm")
-        parser = BeautifulSoup(response.text,'html.parser')
-        ScrapAccidentData(parser,i)
-        break
-
 def ScrapAccidentData(parser,year):
     YearsTable = parser.find("table").find_all("tr")
     RecordsList = []
@@ -32,5 +25,12 @@ def ScrapAccidentData(parser,year):
             RecordsList.append(DataList)        
     PlanesDbData = pd.DataFrame(data=RecordsList,columns=["Date","Time","Location","Operator","Flight","Route","AC Type","Registration","Construction Number/Line or Fuselage Number","Aboard","Fatalities","Ground","Summary"])                
     PlanesDbData.to_csv(f"Planes_Db_Files/{year}.csv")
+
+def YearWiseData():
+    for i in range(1920,2023):
+        response = requests.get(f"http://www.planecrashinfo.com/{i}/{i}.htm")
+        parser = BeautifulSoup(response.text,'html.parser')
+        ScrapAccidentData(parser,i)
+
 
 YearWiseData()
