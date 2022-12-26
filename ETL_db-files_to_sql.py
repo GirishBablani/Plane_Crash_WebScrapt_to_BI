@@ -74,9 +74,8 @@ for name in files_names:
     files_table["Fatalities_Crew"] = files_table["Fatalities"].apply(crew_num)
     files_table["Fatalities"] = files_table["Fatalities"].apply(validate_num)
     files_table["Summary"] = files_table["Summary"].apply(lambda x : (str(x)[:50]+".....").lstrip(" "))
-    print(files_table)
     insert_data(files_table)
-    break
+    
 
 
     
